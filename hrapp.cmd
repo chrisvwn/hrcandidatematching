@@ -1,0 +1,1 @@
+"c:\Program Files\R\R-3.4.4\bin\R.exe" --slave --no-restore -e "library(methods); source('utils.R'); shiny::runApp(appDir='.', list(onStop=function(){pushCmdQueue('exit'); system('taskkill /IM phantomjs.exe /F /T')}), host='0.0.0.0', port=22000, launch.browser=F)"

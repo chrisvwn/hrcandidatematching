@@ -1,0 +1,214 @@
+#Installing pdftk on linux (CentOS 7)
+#====================================
+#(https://copr.fedorainfracloud.org/coprs/robert/pdftk/)
+#sudo yum -y install yum-plugin-copr
+#sudo yum -y copr enable robert/pdftk
+#sudo yum -y copr enable robert/gcj
+
+sudo yum install -y wget
+
+#if the above fail as they did second time around try:
+sudo wget https://copr.fedorainfracloud.org/coprs/robert/gcj/repo/epel-7/robert-gcj-epel-7.repo -O /etc/yum.repos.d/robert-gcj-epel-7.repo
+sudo wget https://copr.fedorainfracloud.org/coprs/robert/pdftk/repo/epel-7/robert-pdftk-epel-7.repo -O /etc/yum.repos.d/robert-pdftk-epel-7.repo
+
+sudo yum install -y pdftk
+
+#Install Selenium Grid 2 (CentOS 7)
+#==================================
+#(https://medium.com/appgambit/configure-selenium-grid-in-docker-45a377ab233b)
+#install docker
+#extras repo required for pkg `container-selinux`
+sudo curl -fsSL https://get.docker.com/ | sh
+sudo systemctl start docker
+sudo systemctl status docker
+
+#pull selenium hub docker image
+sudo docker pull selenium/hub
+
+#pull node images
+sudo docker pull selenium/node-chrome
+
+#Create docker-compose.yml config file
+#install python-pip
+#install epel repo if not already present
+sudo yum install -y epel-release
+
+sudo yum install -y python-pip
+sudo pip install docker-compose
+
+#create docker-compose.yml with contents
+#===
+sudo mkdir /etc/compose
+
+sudo bash -c 'cat << EOF > /etc/compose/docker-compose.yml
+seleniumhub:
+  image: selenium/hub
+  ports:
+    - 4444:4444
+  environment:
+    - GRID_MAX_SESSION=10
+    - GRID_BROWSER_TIMEOUT=100000
+    - GRID_TIMEOUT=90000
+    - GRID_NEW_SESSION_WAIT_TIMEOUT=300000
+chromenode:
+  image: selenium/node-chrome
+  ports:
+    - 5900
+  environment:
+    - NODE_MAX_INSTANCES=10
+    - NODE_MAX_SESSION=10
+  links:
+    - seleniumhub:hub
+EOF'
+#===
+
+#manual control of docker selenium hub/nodes
+#create selenium grid container
+#docker-compose up
+#
+#For stop all running Docker containers
+#docker-compose stop
+#to force
+#docker-compose kill
+#
+#to delete containers
+#docker-compose rm
+
+#access grid console
+#open hub port 
+#firewall-cmd --add-port 4444/tcp --permanent
+#firewall-cmd --reload
+
+#run as a systemd service
+#(https://gist.github.com/Luzifer/7c54c8b0b61da450d10258f0abd3c917)
+#Compose file describing what to deploy
+#/etc/compose/docker-compose.yml
+#(put contents as above)
+#Service unit to start and manage docker compose
+sudo bash -c 'cat << EOF > /etc/systemd/system/docker-compose.service
+[Unit]
+Description=Docker Compose container starter
+After=docker.service network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+WorkingDirectory=/etc/compose
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStartPre=/bin/docker-compose pull --quiet --parallel
+ExecStart=/bin/docker-compose up -d
+
+ExecStop=/bin/docker-compose down
+
+ExecReload=/bin/docker-compose pull --quiet --parallel
+ExecReload=/bin/docker-compose up -d
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+#===
+
+#Executing unit to trigger reload on docker-compose.service
+sudo bash -c 'cat << EOF > /etc/systemd/system/docker-compose-reload.service
+[Unit]
+Description=Refresh images and update containers
+
+[Service]
+Type=oneshot
+
+ExecStart=/bin/systemctl reload docker-compose.service
+EOF'
+#===
+
+#Timer unit to plan the reloads
+sudo bash -c 'cat << EOF > /etc/systemd/system/docker-compose-reload.timer
+[Unit]
+Description=Refresh images and update containers
+Requires=docker-compose.service
+After=docker-compose.service
+
+[Timer]
+OnCalendar=*:0/15
+
+[Install]
+WantedBy=timers.target
+EOF'
+#===
+
+#install services and enable them
+sudo systemctl daemon-reload
+sudo systemctl enable docker-compose
+sudo systemctl enable docker-compose-reload
+sudo systemctl start docker-compose
+sudo systemctl start docker-compose-reload
+
+#install chrome
+#install graphical UI
+#yum group install "Server with GUI"
+
+sudo bash -c 'cat << EOF > /etc/yum.repos.d/google-chrome.repo
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+EOF'
+
+sudo yum install -y google-chrome
+
+#install shiny-server
+#(https://www.vultr.com/docs/how-to-install-shiny-server-on-centos-7)
+sudo yum install -y R
+sudo yum install -y curl-devel openssl-devel
+sudo wget https://download3.rstudio.org/centos6.3/x86_64/shiny-server-1.5.7.907-rh6-x86_64.rpm
+sudo yum install -y --nogpgcheck shiny-server-1.5.7.907-rh6-x86_64.rpm
+sudo systemctl start shiny-server
+sudo firewall-cmd --permanent --zone=public --add-port=3838/tcp
+sudo firewall-cmd --reload
+
+#manually add options and disable once in production
+sanitize_errors false;
+preserve_logs true;
+
+#install rstudio server
+wget https://download2.rstudio.org/rstudio-server-rhel-1.0.136-x86_64.rpm
+sudo yum install --nogpgcheck rstudio-server-rhel-1.0.136-x86_64.rpm -y
+sudo systemctl start rstudio-server.service
+sudo firewall-cmd --permanent --zone=public --add-port=8787/tcp
+sudo firewall-cmd --reload
+
+#install shiny app from github
+sudo yum install -y git
+sudo yum install -y libsodium-devel mariadb-server mariadb mariadb-devel libxml2-devel
+sudo systemctl enable mariadb
+sudo systemctl start mariadb
+
+cd /srv/shiny-server
+sudo git clone https://github.com/chrisvwn/hrcandidatematching
+#manually copy credentials.R
+
+#install packages required for the app
+sudo R -e "install.packages(c('shiny', 'shinydashboard','rmarkdown', 'devtools', 'RJDBC', 'RMySQL', 'RMariaDB', 'RSQLite', 'DT', 'readr', 'dplyr', 'dtplyr', 'sodium', 'text2vec', 'tm', 'future'), repos='http://cran.rstudio.com/')"
+
+#Install RSelenium which is currently deprecated from CRAN. When restored just add to CRAN library install list above
+sudo R -e 'devtools::install_version("binman", version = "0.1.0", repos = "http://cran.rstudio.com/")'
+sudo R -e 'devtools::install_version("wdman", version = "0.2.2", repos = "http://cran.rstudio.com/")'
+sudo R -e 'devtools::install_version("RSelenium", version = "1.7.1", repos = "http://cran.rstudio.com/")'
+
+#install authentication via auth0
+#(https://auth0.com/blog/adding-authentication-to-shiny-open-source-edition/)
+#register on auth0
+#create users
+#
+#yum install httpd
+#
+#wget https://github.com/zmartzone/mod_auth_openidc/releases/download/v2.3.0/cjose-0.5.1-1.el7.centos.x86_64.rpm
+#wget https://github.com/zmartzone/mod_auth_openidc/releases/download/v2.3.5/mod_auth_openidc-2.3.5-1.el7.x86_64.rpm
+#yum install cjose-0.5.1-1.el7.centos.x86_64.rpm
+#yum install mod_auth_openidc-2.3.5-1.el7.x86_64.rpm
+#
+#vim /etc/httpd/conf.modules.d/10-auth_openidc.conf
+
+
