@@ -610,7 +610,7 @@ searchCatho <- function(userId)
             }
             
             #find the confidencial ads
-            notEmpresaConfidencial <- which(jobAds$companyName != "EMPRESA CONFIDENCIAL")
+            notEmpresaConfidencial <- grep("EMPRESA CONFIDENCIAL", jobAds$companyName, invert = T, ignore.case = T)
             
             searchResults <- NULL
 
