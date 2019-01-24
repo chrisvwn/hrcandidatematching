@@ -151,7 +151,15 @@ shinyServer(function(input, output, session)
   output$interestsResults <- shiny::renderUI({
     req(login$Login)
     
-    shiny::selectInput(inputId = "interestsResults", label = "Interest", choices = clientInterests())
+    clntInterests <- clientInterests()
+    
+    lngthInterest <- max(sapply(clntInterests, nchar))
+      
+    #assume 10px width per char
+    shiny::selectInput(inputId = "interestsResults",
+                       label = "Interest",
+                       choices = clntInterests,
+                       width = lngthInterest*7)
   })
   
   ################################  adminUsersTab ################################
@@ -173,7 +181,16 @@ shinyServer(function(input, output, session)
     
     clntResults <- searchResults()
     
-    clntResults <- mutate(clntResults, JobUrl = paste0("<a href='", JobUrl,"' target='_blank'>", JobUrl,"</a>"))
+    maxChars <- 250
+    
+    clntResults <- mutate(clntResults,
+                          JobUrl = paste0("<a href='", JobUrl,"' target='_blank'>", JobUrl,"</a>"), 
+                          DescriptionShort = ifelse(nchar(DescriptionShort) > maxChars,
+                                                    paste0(substr(DescriptionShort, 1, maxChars), " ..."),
+                                                    DescriptionShort),
+                          DescriptionLong = ifelse(nchar(DescriptionLong) > maxChars,
+                                                   paste0(substr(DescriptionLong, 1, maxChars), " ..."),
+                                                   DescriptionLong))
     
     if(input$filterOn)
       if(!is.null(input$interestsResults))
