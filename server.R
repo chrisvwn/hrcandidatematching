@@ -173,6 +173,8 @@ shinyServer(function(input, output, session)
     
     clntResults <- searchResults()
     
+    clntResults <- mutate(clntResults, JobUrl = paste0("<a href='", JobUrl,"' target='_blank'>", JobUrl,"</a>"))
+    
     if(input$filterOn)
       if(!is.null(input$interestsResults))
         clntResults <- clntResults[which(clntResults$SearchTxt == input$interestsResults), ]
