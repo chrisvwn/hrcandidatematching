@@ -644,8 +644,8 @@ shinyServer(function(input, output, session)
                        ),
                        
                        shiny::tabPanel("Search Results",
-                                       shiny::uiOutput(outputId = "interestsResults"),
-                                       shiny::checkboxInput(inputId = "filterOn", label = "Filter by interest", value = FALSE),
+                                       mainPanel(fluidRow(column(8, shiny::uiOutput(outputId = "interestsResults")),
+                                       column(4, shiny::tags$br(),shiny::checkboxInput(inputId = "filterOn", label = "Filter by interest", value = FALSE)))),
                                        DT::dataTableOutput("resultsDT")
                         ),
 
