@@ -69,11 +69,15 @@ tryCatch({
                                            CompanyName VARCHAR (255),
                                            DescriptionShort VARCHAR (255),
                                            DescriptionLong VARCHAR(10000),
+                                           Score INT,
+                                           Selected boolean,
                                            Rank INT, 
                                            FOREIGN KEY (SiteId) REFERENCES Sites(Id),
                                            FOREIGN KEY (ClientId) REFERENCES Clients(Id))
                                            CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"))
-  
+
+#DISABLED: was needed to get a unique row by hashing all columns but not in use. JobUrl should be used
+#  as the primary key
 #   res <- RMariaDB::dbExecute(dbCon, paste0("ALTER TABLE ", tblJobSearchResults, " ADD COLUMN IF NOT EXISTS
 # ClientJobUrlHash binary(32)
 # GENERATED ALWAYS AS (
