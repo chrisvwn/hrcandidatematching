@@ -179,12 +179,12 @@ shinyServer(function(input, output, session)
   output$resultsDT <- DT::renderDataTable({
     req(login$Login)
     
-    clntResults <- searchResults()
-    
     maxChars <- 250
     
+    clntResults <- searchResults()
+    
     clntResults <- mutate(clntResults,
-                          JobUrl = paste0("<a href='", JobUrl,"' target='_blank'>", JobUrl,"</a>"), 
+                          JobUrl = paste0("<a href='", JobUrl,"' target='_blank'>", JobTitle,"</a>"), 
                           DescriptionShort = ifelse(nchar(DescriptionShort) > maxChars,
                                                     paste0(substr(DescriptionShort, 1, maxChars), " ..."),
                                                     DescriptionShort),
@@ -196,18 +196,34 @@ shinyServer(function(input, output, session)
       if(!is.null(input$interestsResults))
         clntResults <- clntResults[which(clntResults$SearchTxt == input$interestsResults), ]
     
-    clntResults <- clntResults[order(clntResults$Rank), -c(1:5)]
+    #remove first 5 cols leaving only short & long description, score, selected and rank
+    clntResults <- clntResults[order(clntResults$Rank), -c(1:6)]
 
-    #clntResults$jobUrl <- sapply(clntResults$jobUrl, function(x) toString(tags$a(href=x, x)))
+    jobSelected <- paste0('<input type="checkbox" align="center" ', ifelse(clntResults$Selected==1, ', checked', ''), '>')
     
+    #clntResults[["Actions"]]<-
+    #  paste0('
+    #         <div class="btn-group" role="group" aria-label="Basic example">
+    #         <button type="button" class="btn btn-secondary delete" id=delete_',1:nrow(clntResults),'>Delete</button>
+    #         <button type="button" class="btn btn-secondary modify"id=modify_',1:nrow(clntResults),'>Modify</button></div>
+    #         ')
+
+    #remove the Selected col from the DT and replace with the jobSelected checkboxes
+    clntResults <- clntResults[,-which(names(clntResults)=="Selected")]
+    
+    clntResults[["Selected"]] <- jobSelected
+        
     clntResults
   }, 
   rownames=F,
   escape=F,
+  editable=T,
+  selection='single',
   extensions=list(c('Scroller','Responsive')),
   options=list(dom='Bfrtip',
                scrollY=400,
-               autoWidth=T))
+               autoWidth=T,
+               searchHighlight = TRUE))
   
   getClientsInQueueReactive <- reactive({
     if(is.null(input$client) || input$client == "")
