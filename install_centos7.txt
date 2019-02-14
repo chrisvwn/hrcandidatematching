@@ -192,10 +192,10 @@ sudo git clone https://github.com/chrisvwn/hrcandidatematching
 #install packages required for the app
 sudo R -e "install.packages(c('shiny', 'shinydashboard','rmarkdown', 'devtools', 'RJDBC', 'RMySQL', 'RMariaDB', 'RSQLite', 'DT', 'readr', 'dplyr', 'dtplyr', 'sodium', 'text2vec', 'tm', 'future'), repos='http://cran.rstudio.com/')"
 
-#Install RSelenium which is currently deprecated from CRAN. When restored just add to CRAN library install list above
-sudo R -e 'devtools::install_version("binman", version = "0.1.0", repos = "http://cran.rstudio.com/")'
-sudo R -e 'devtools::install_version("wdman", version = "0.2.2", repos = "http://cran.rstudio.com/")'
-sudo R -e 'devtools::install_version("RSelenium", version = "1.7.1", repos = "http://cran.rstudio.com/")'
+#Install RSelenium if not on CRAN
+#sudo R -e 'devtools::install_version("binman", version = "0.1.0", repos = "http://cran.rstudio.com/")'
+#sudo R -e 'devtools::install_version("wdman", version = "0.2.2", repos = "http://cran.rstudio.com/")'
+#sudo R -e 'devtools::install_version("RSelenium", version = "1.7.1", repos = "http://cran.rstudio.com/")'
 
 #install authentication via auth0
 #(https://auth0.com/blog/adding-authentication-to-shiny-open-source-edition/)

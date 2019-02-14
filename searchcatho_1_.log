@@ -1,0 +1,451 @@
+2019-01-11 09:48:09: start logging to logfile
+2019-01-11 09:48:09: =========== START searchCATHO UserId: 1 ===========
+2019-01-11 09:48:09: Launching browser
+2019-01-11 09:48:09: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:48:09: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:48:19: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:48:20: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:48:30: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:48:30: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:48:40: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:48:40: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:48:50: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:48:50: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:49:00: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:49:00: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:49:10: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:49:10: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:49:20: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:49:20: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:49:30: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:49:30: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:49:40: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:49:40: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:49:50: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:49:50: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:50:00: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:50:00: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:50:10: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:50:11: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:50:21: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:50:21: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:50:31: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:50:31: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:50:41: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:50:41: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:50:51: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:50:51: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:51:01: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:51:01: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:51:11: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:51:11: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:51:21: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:51:21: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:51:31: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:51:31: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:51:41: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:51:41: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:51:51: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:51:51: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:52:01: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:52:01: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:52:11: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:52:11: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:52:21: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:52:21: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:52:31: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:52:31: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:52:41: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:52:41: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:52:51: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:52:51: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:53:01: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:53:01: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:53:12: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:53:12: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:53:22: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:53:22: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:53:32: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:53:32: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:53:42: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:53:42: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:53:52: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:53:52: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:54:02: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:54:02: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:54:12: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:54:12: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:54:22: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:54:22: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:54:32: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:54:32: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:54:42: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:54:42: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:54:52: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:54:52: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:55:02: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:55:02: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:55:12: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:55:12: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:55:22: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:55:22: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:55:32: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:55:32: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:55:42: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:55:42: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:55:52: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:55:52: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:56:02: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:56:02: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:56:12: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:56:12: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:56:22: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:56:23: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:56:33: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:56:33: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:56:43: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:56:43: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:56:53: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Failed connect to 127.0.0.1:4444; Connection refused
+2019-01-11 09:56:53: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:57:03: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+Error in checkError(res) : 
+  Undefined error in httr call. httr output: Recv failure: Connection reset by peer
+2019-01-11 09:57:03: An error occurred. Cannot connect to Selenium Hub. Trying again in 10
+2019-01-11 09:57:13: remote driver not started. Starting ...
+Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+$acceptInsecureCerts
+[1] FALSE
+
+$acceptSslCerts
+[1] FALSE
+
+$applicationCacheEnabled
+[1] FALSE
+
+$browserConnectionEnabled
+[1] FALSE
+
+$browserName
+[1] "chrome"
+
+$chrome
+$chrome$chromedriverVersion
+[1] "2.45.615279 (12b89733300bd268cff3b78fc76cb8f3a7cc44e5)"
+
+$chrome$userDataDir
+[1] "/tmp/.org.chromium.Chromium.XBHHhq"
+
+
+$cssSelectorsEnabled
+[1] TRUE
+
+$databaseEnabled
+[1] FALSE
+
+$`goog:chromeOptions`
+$`goog:chromeOptions`$debuggerAddress
+[1] "localhost:34764"
+
+
+$handlesAlerts
+[1] TRUE
+
+$hasTouchScreen
+[1] FALSE
+
+$javascriptEnabled
+[1] TRUE
+
+$locationContextEnabled
+[1] TRUE
+
+$mobileEmulationEnabled
+[1] FALSE
+
+$nativeEvents
+[1] TRUE
+
+$networkConnectionEnabled
+[1] FALSE
+
+$pageLoadStrategy
+[1] "normal"
+
+$platform
+[1] "Linux"
+
+$proxy
+named list()
+
+$rotatable
+[1] FALSE
+
+$setWindowRect
+[1] TRUE
+
+$strictFileInteractability
+[1] FALSE
+
+$takesHeapSnapshot
+[1] TRUE
+
+$takesScreenshot
+[1] TRUE
+
+$timeouts
+$timeouts$implicit
+[1] 0
+
+$timeouts$pageLoad
+[1] 300000
+
+$timeouts$script
+[1] 30000
+
+
+$unexpectedAlertBehaviour
+[1] "ignore"
+
+$version
+[1] "71.0.3578.98"
+
+$webStorageEnabled
+[1] TRUE
+
+$webdriver.remote.sessionid
+[1] "10b81db1a2ac893c6185dc4951b3a203"
+
+$id
+[1] "10b81db1a2ac893c6185dc4951b3a203"
+
+2019-01-11 09:57:30: Connected to Selenium Hub
+2019-01-11 09:57:31: Opening main page
+2019-01-11 09:57:49: Logging in
+2019-01-11 09:57:49: Locating login link
+2019-01-11 09:57:49: Clicking login link
+2019-01-11 09:57:50: Locating login iframe
+2019-01-11 09:57:50: Locating username login input
+2019-01-11 09:57:54: Locating password input
+2019-01-11 09:57:55: Locating login button
+2019-01-11 09:57:56: Clicking login button
+2019-01-11 09:57:57: Sleeping 3
+2019-01-11 09:58:00: Session exists. Trying search
+2019-01-11 09:58:00: No clients in queue. Exiting gracefully
+2019-01-11 09:58:01: Clean up and exit
+2019-01-11 09:58:01: Closing browser window
+2019-01-11 09:58:01: Sending output back to default

@@ -1,0 +1,180 @@
+2019-02-07 14:01:17: start logging to logfile
+2019-02-07 14:01:17: =========== START searchINDEED UserId: 3 ===========
+2019-02-07 14:01:17: Launching browser
+2019-02-07 14:01:17: remote driver not started. Starting ...
+2019-02-07 14:01:17:Checking if we are connected to Selenium Hub
+[1] "Connecting to remote server"
+$acceptInsecureCerts
+[1] FALSE
+
+$acceptSslCerts
+[1] FALSE
+
+$applicationCacheEnabled
+[1] FALSE
+
+$browserConnectionEnabled
+[1] FALSE
+
+$browserName
+[1] "chrome"
+
+$chrome
+$chrome$chromedriverVersion
+[1] "2.46.628388 (4a34a70827ac54148e092aafb70504c4ea7ae926)"
+
+$chrome$userDataDir
+[1] "/tmp/.org.chromium.Chromium.JuirUp"
+
+
+$cssSelectorsEnabled
+[1] TRUE
+
+$databaseEnabled
+[1] FALSE
+
+$`goog:chromeOptions`
+$`goog:chromeOptions`$debuggerAddress
+[1] "localhost:35694"
+
+
+$handlesAlerts
+[1] TRUE
+
+$hasTouchScreen
+[1] FALSE
+
+$javascriptEnabled
+[1] TRUE
+
+$locationContextEnabled
+[1] TRUE
+
+$mobileEmulationEnabled
+[1] FALSE
+
+$nativeEvents
+[1] TRUE
+
+$networkConnectionEnabled
+[1] FALSE
+
+$pageLoadStrategy
+[1] "normal"
+
+$platform
+[1] "Linux"
+
+$proxy
+named list()
+
+$rotatable
+[1] FALSE
+
+$setWindowRect
+[1] TRUE
+
+$strictFileInteractability
+[1] FALSE
+
+$takesHeapSnapshot
+[1] TRUE
+
+$takesScreenshot
+[1] TRUE
+
+$timeouts
+$timeouts$implicit
+[1] 0
+
+$timeouts$pageLoad
+[1] 300000
+
+$timeouts$script
+[1] 30000
+
+
+$unexpectedAlertBehaviour
+[1] "ignore"
+
+$version
+[1] "72.0.3626.81"
+
+$webStorageEnabled
+[1] TRUE
+
+$webdriver.remote.sessionid
+[1] "2863a122fd0a628145c326fc293ae9df"
+
+$id
+[1] "2863a122fd0a628145c326fc293ae9df"
+
+2019-02-07 14:01:20: Connected to Selenium Hub
+2019-02-07 14:01:20: Navigating to main page
+2019-02-07 14:01:21: Sleeping 3
+2019-02-07 14:01:24: Processing client: 3
+2019-02-07 14:01:24: Search criteria: 1: 'Supervisão/Coordenação/Gerência - área de saúde e educação'
+2019-02-07 14:01:25: Clicking on search bar
+2019-02-07 14:01:25: Clearing search bar
+2019-02-07 14:01:25: Entering search criteria 'Supervisão/Coordenação/Gerência - área de saúde e educação'
+2019-02-07 14:01:27: Entering search location
+2019-02-07 14:01:27: Clicking on search location
+2019-02-07 14:01:27: Clearing search location
+2019-02-07 14:01:27: Entering search location
+2019-02-07 14:01:29: Sleeping 3
+2019-02-07 14:01:32: Sleeping 3
+2019-02-07 14:01:35: On Page 1
+2019-02-07 14:01:35: Getting job nodes
+2019-02-07 14:01:35: No new jobs
+2019-02-07 14:01:35: Locating next page link
+2019-02-07 14:01:38: Last page detected. Sleeping 1
+2019-02-07 14:01:39: Search criteria: 2: 'Docência e Pesquisa (Ciências da Saúde, Artes, Educação)'
+2019-02-07 14:01:42: Clicking on search bar
+2019-02-07 14:01:42: Clearing search bar
+2019-02-07 14:01:43: Entering search criteria 'Docência e Pesquisa (Ciências da Saúde, Artes, Educação)'
+2019-02-07 14:01:43: Entering search location
+2019-02-07 14:01:46: Clicking on search location
+2019-02-07 14:01:46: Clearing search location
+2019-02-07 14:01:47: Entering search location
+2019-02-07 14:01:47: Sleeping 3
+2019-02-07 14:01:50: Sleeping 3
+2019-02-07 14:01:53: On Page 1
+2019-02-07 14:01:53: Getting job nodes
+2019-02-07 14:01:56: No new jobs
+2019-02-07 14:01:56: Locating next page link
+2019-02-07 14:01:59: Last page detected. Sleeping 1
+2019-02-07 14:02:00: Search criteria: 3: 'Terapeuta Ocupacional'
+2019-02-07 14:02:03: Clicking on search bar
+2019-02-07 14:02:03: Clearing search bar
+2019-02-07 14:02:03: Entering search criteria 'Terapeuta Ocupacional'
+2019-02-07 14:02:04: Entering search location
+2019-02-07 14:02:07: Clicking on search location
+2019-02-07 14:02:07: Clearing search location
+2019-02-07 14:02:07: Entering search location
+2019-02-07 14:02:08: Sleeping 3
+2019-02-07 14:02:11: Sleeping 3
+2019-02-07 14:02:14: On Page 1
+2019-02-07 14:02:14: Getting job nodes
+2019-02-07 14:02:14: Getting job titles
+2019-02-07 14:02:16: Getting job urls
+2019-02-07 14:02:17: Getting company names
+2019-02-07 14:02:19: Getting job summaries
+2019-02-07 14:02:20: Combining company details
+2019-02-07 14:02:20: Adding timestamp, clientId, search txt
+2019-02-07 14:02:21: Writing results to db
+2019-02-07 14:02:21: Locating next page link
+2019-02-07 14:02:24: Last page detected. Sleeping 1
+2019-02-07 14:02:25: Completed processing: 3
+2019-02-07 14:02:25: Ranking client results
+vocab - ngrams
+  |                                                                              |==========                                                            |  14%  |                                                                              |====================                                                  |  29%  |                                                                              |==============================                                        |  43%  |                                                                              |========================================                              |  57%  |                                                                              |==================================================                    |  71%  |                                                                              |============================================================          |  86%  |                                                                              |======================================================================| 100%
+pruning vocabs
+creating vectorizer
+creating dtms
+  |                                                                              |==========                                                            |  14%  |                                                                              |====================                                                  |  29%  |                                                                              |==============================                                        |  43%  |                                                                              |========================================                              |  57%  |                                                                              |==================================================                    |  71%  |                                                                              |============================================================          |  86%  |                                                                              |======================================================================| 100%  |                                                                              |======================================================================| 100%
+creating tfidfs
+<sparse>[ <logic> ] : .M.sub.i.logical() maybe inefficient
+2019-02-07 14:02:25: No clients in queue. Exiting gracefully
+2019-02-07 14:02:25: Clean up and exit
+2019-02-07 14:02:25: Closing browser window
+2019-02-07 14:02:25: Sending output back to default
