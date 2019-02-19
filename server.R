@@ -174,11 +174,13 @@ shinyServer(function(input, output, session)
     clntDetails
   })
   
-  ################################  job search results ################################
+  ################################  reactive Values ################################
   
-  output$resultsDT <- DT::renderDataTable({
-    req(login$Login)
-    
+  reactVals <- reactiveValues(clntResultsDF = NULL, checkBoxes = NULL)
+  
+  ################################  observe results dataframe ################################
+  
+  observe({
     maxChars <- 250
     
     clntResults <- searchResults()
@@ -192,14 +194,19 @@ shinyServer(function(input, output, session)
                                                    paste0(substr(DescriptionLong, 1, maxChars), " ..."),
                                                    DescriptionLong))
     
-    if(input$filterOn)
-      if(!is.null(input$interestsResults))
-        clntResults <- clntResults[which(clntResults$SearchTxt == input$interestsResults), ]
+    if(!is.null(input$filterOn) && input$filterOn)
+     if(!is.null(input$interestsResults))
+       clntResults <- clntResults[which(clntResults$SearchTxt == input$interestsResults), ]
     
-    #remove first 5 cols leaving only short & long description, score, selected and rank
-    clntResults <- clntResults[order(clntResults$Rank), -c(1:6)]
-
-    jobSelected <- paste0('<input type="checkbox" align="center" ', ifelse(clntResults$Selected==1, ', checked', ''), '>')
+    #remove first 5 cols after id leaving only id, short & long description, score, selected and rank
+    clntResults <- clntResults[order(clntResults$Rank), -c(2:6)]
+    
+    if(nrow(clntResults) == 0)
+      return()
+    
+    #embed row number and jobid to identify the row in page(in js)/record in db later
+    #zero-index for access in javascript
+    jobSelected <- paste0('<input type="checkbox" align="center" id="jobid_', 0:(nrow(clntResults)-1), "_", clntResults$Id, '"', ifelse(clntResults$Selected==1, ' checked', ''), '>')
     
     #clntResults[["Actions"]]<-
     #  paste0('
@@ -207,13 +214,22 @@ shinyServer(function(input, output, session)
     #         <button type="button" class="btn btn-secondary delete" id=delete_',1:nrow(clntResults),'>Delete</button>
     #         <button type="button" class="btn btn-secondary modify"id=modify_',1:nrow(clntResults),'>Modify</button></div>
     #         ')
-
+    
     #remove the Selected col from the DT and replace with the jobSelected checkboxes
     clntResults <- clntResults[,-which(names(clntResults)=="Selected")]
     
     clntResults[["Selected"]] <- jobSelected
-        
-    clntResults
+    
+    reactVals$clntResultsDF <- clntResults
+  })
+  
+  ################################  render results datatable ################################
+  
+  output$resultsDT <- DT::renderDataTable({
+    req(login$Login)
+    
+    reactVals$clntResultsDF
+
   }, 
   rownames=F,
   escape=F,
@@ -223,7 +239,100 @@ shinyServer(function(input, output, session)
   options=list(dom='Bfrtip',
                scrollY=400,
                autoWidth=T,
-               searchHighlight = TRUE))
+               searchHighlight = TRUE,
+               columnDefs = list(list(visible=FALSE, targets=c(1)))),
+  callback=JS(
+    'table.on("click.dt","tr td input:checkbox", function () {
+              var dataScore = $(this).parent().siblings().eq(5).text();
+              var isChecked = $(this).is(":checked");
+
+              //alert("score=<" + dataScore + "> checked=<" + isChecked + ">");
+
+              //only trigger if we are checking the checkbox though it should not happen that it is 
+              //selected and no score exists
+              if(dataScore == "" && $(this).is(":checked")){
+                alert("Please set a score before selecting the job");
+
+                //return the checkbox to the initial value
+                this.checked = !$(this).is(":checked");
+                return;
+              }
+
+              Shiny.onInputChange("chkboxId", this.id);
+              Shiny.onInputChange("chkboxClick", Math.random());
+              Shiny.onInputChange("chkboxChecked", $(this).is(":checked"));
+})')
+  )
+  
+  # Here is the code from Part 4 of https://github.com/rstudio/DT/pull/480:
+  proxy <- dataTableProxy('resultsDT')
+  
+  ################################  observe edit scores ################################
+  
+  observeEvent(input$resultsDT_cell_edit, {
+    scoreColIdx <- 7
+    
+    info <- input$resultsDT_cell_edit
+    
+    i <- info$row
+    j <- info$col + 1  # column index offset by 1
+    v <- as.integer(info$value)
+    
+    if(j != scoreColIdx)
+    {
+      helpTextMsg <- "Can only change scores"
+      
+      helpText(helpTextMsg) %>%
+        div(style = "margin-bottom: 15px", .) %>%
+        showOKModal("searchCancel", .)
+      
+      #return the datatable value to prev value
+      replaceData(proxy, reactVals$clntResultsDF, resetPaging=FALSE, rownames=FALSE)
+      
+      return()
+    }
+    
+    if(is.na(v) || !is.integer(v) || v < 0 || v > 10)
+    {
+      helpTextMsg <- "Only integer scores (0 - 10) allowed"
+      
+      helpText(helpTextMsg) %>%
+        div(style = "margin-bottom: 15px", .) %>%
+        showOKModal("searchCancel", .)
+      
+      #return the datatable value to prev value
+      #replaceData(proxy, reactVals$clntResultsDF, resetPaging=FALSE, rownames=FALSE)
+      
+      return()
+    }
+    
+    #clntResults[i, j] <<- DT::coerceValue(v, clntResults[i, j])
+    
+    tempDF <- reactVals$clntResultsDF
+    
+    tempDF[i, j] <- DT::coerceValue(v, tempDF[i, j])
+    
+    replaceData(proxy, tempDF, resetPaging=FALSE, rownames=FALSE)
+    
+    jobId <- reactVals$clntResultsDF$Id[i]
+    
+    #write to DB
+    if(j == 7)
+      updateClientJobScore(jobId = jobId, newScore = as.numeric(v))
+  })
+  
+  ################################  update job selected ################################
+  
+  observeEvent(input$chkboxClick,
+   {
+     paste0("here")
+     
+     jobId <- as.numeric(gsub("jobid_.*_", "", input$chkboxId))
+     
+     #write to DB
+     updateClientJobSelection(jobId = jobId, selected = input$chkboxChecked)
+   }
+  )
   
   getClientsInQueueReactive <- reactive({
     if(is.null(input$client) || input$client == "")
