@@ -199,14 +199,14 @@ shinyServer(function(input, output, session)
        clntResults <- clntResults[which(clntResults$SearchTxt == input$interestsResults), ]
     
     #remove first 5 cols after id leaving only id, short & long description, score, selected and rank
-    clntResults <- clntResults[order(clntResults$Rank), -c(2:6)]
+    clntResults <- clntResults[order(clntResults$Rank), -c(3:6)]
     
     if(nrow(clntResults) == 0)
       return()
     
     #embed row number and jobid to identify the row in page(in js)/record in db later
     #zero-index for access in javascript
-    jobSelected <- paste0('<input type="checkbox" align="center" id="jobid_', 0:(nrow(clntResults)-1), "_", clntResults$Id, '"', ifelse(clntResults$Selected==1, ' checked', ''), '>')
+    jobSelected <- paste0('<input type="checkbox" id="jobid_', 0:(nrow(clntResults)-1), "_", clntResults$Id, '"', ifelse(clntResults$Selected==1, ' checked', ''), '>')
     
     #clntResults[["Actions"]]<-
     #  paste0('
@@ -228,40 +228,46 @@ shinyServer(function(input, output, session)
   output$resultsDT <- DT::renderDataTable({
     req(login$Login)
     
-    reactVals$clntResultsDF
-
-  }, 
-  rownames=F,
-  escape=F,
-  editable=T,
-  selection='single',
-  extensions=list(c('Scroller','Responsive')),
-  options=list(dom='Bfrtip',
-               scrollY=400,
-               autoWidth=T,
-               searchHighlight = TRUE,
-               columnDefs = list(list(visible=FALSE, targets=c(1)))),
-  callback=JS(
-    'table.on("click.dt","tr td input:checkbox", function () {
-              var dataScore = $(this).parent().siblings().eq(5).text();
-              var isChecked = $(this).is(":checked");
-
-              //alert("score=<" + dataScore + "> checked=<" + isChecked + ">");
-
-              //only trigger if we are checking the checkbox though it should not happen that it is 
-              //selected and no score exists
-              if(dataScore == "" && $(this).is(":checked")){
+    df <- if(is.null(reactVals$clntResultsDF) || nrow(reactVals$clntResultsDF) > 0)
+      reactVals$clntResultsDF 
+    else 
+      data.frame(Value="No Data")
+    
+    datatable(df,
+              rownames=F,
+              escape=F,
+              editable=T,
+              selection='single',
+              extensions=list(c('Scroller','Responsive')),
+              options=list(dom='Bfrtip',
+                           scrollY=400,
+                           autoWidth=T,
+                           searchHighlight = TRUE,
+                           columnDefs = list(list(visible=FALSE, targets=c(1)),
+                                             list(className='dt-center', targets=c(8)))),
+              callback=JS(
+                'table.on("click.dt","tr td input:checkbox", function () {
+                var dataScore = $(this).parent().siblings().eq(6).text();
+                var isChecked = $(this).is(":checked");
+                
+                //alert("score=<" + dataScore + "> checked=<" + isChecked + ">");
+                
+                //only trigger if we are checking the checkbox though it should not happen that it is 
+                //selected and no score exists
+                if(dataScore == "" && $(this).is(":checked")){
                 alert("Please set a score before selecting the job");
-
+                
                 //return the checkbox to the initial value
                 this.checked = !$(this).is(":checked");
                 return;
-              }
+                }
+                
+                Shiny.onInputChange("chkboxId", this.id);
+                Shiny.onInputChange("chkboxClick", Math.random());
+                Shiny.onInputChange("chkboxChecked", $(this).is(":checked"));
+  })'))
 
-              Shiny.onInputChange("chkboxId", this.id);
-              Shiny.onInputChange("chkboxClick", Math.random());
-              Shiny.onInputChange("chkboxChecked", $(this).is(":checked"));
-})')
+  }
   )
   
   # Here is the code from Part 4 of https://github.com/rstudio/DT/pull/480:
@@ -317,7 +323,7 @@ shinyServer(function(input, output, session)
     jobId <- reactVals$clntResultsDF$Id[i]
     
     #write to DB
-    if(j == 7)
+    if(j == 8)
       updateClientJobScore(jobId = jobId, newScore = as.numeric(v))
   })
   
@@ -500,34 +506,48 @@ shinyServer(function(input, output, session)
   
   ################################  serverLogs ################################
   
-  output$serverLogs <-  DT::renderDataTable({
-    req(login$Login & login$Role=="Admin")
+  output$serverLogs <- renderText({
+    req(login$Login)
     
-    logContents <- serverLogContents()
-    
-    if(is.null(logContents))
-      logContents <- data.frame("Details"=c("Nothing Here Yet"))
-    
-    logContents
-  })
+      # Read the text, and make it a consistent number of lines so
+      # that the output box doesn't grow in height.
+      txt <- serverLogContents()
+      
+      if(length(txt) > 0)
+        length(txt) <- 14
+      else
+        txt <- "Empty Log"
+      
+      txt[is.na(text)] <- ""
+      
+      paste(txt, collapse = '\n')
+    })
   
-  serverLogContents <- reactiveFileReader(1000,
+  getCathoLogFilename <- reactive({
+    req(login$Login)
+    paste0("searchcatho_", login$Id, "_.log")
+    })
+  
+  serverLogContents <- reactiveFileReader(500,
                                 session = session,
-                                filePath = "hrappsearchlog.log",
-                                function(logFilename)
-                                {
-                                  req(login$Login)
-                                  #clientsFilename <- "clients.csv"
-                                  
-                                  if(!file.exists(logFilename))
-                                    return(NULL)
-                                  
-                                  logContents <- read.csv(logFilename, header = F, encoding = 'UTF-8')
-
-                                  names(logContents) <- "Server Log"
-                                  
-                                  return(logContents)
-                                })
+                                filePath = "searchcatho_3_.log",
+                                readFunc = readLines)
+                                # function(logFilename)
+                                # {
+                                #   req(login$Login)
+                                #   #clientsFilename <- "clients.csv"
+                                #   
+                                #   if(!file.exists(logFilename))
+                                #     return(NULL)
+                                #   
+                                #   logContents <- read.csv(logFilename, header = F, encoding = 'UTF-8')
+                                # 
+                                #   paste0("nrows",nrow(logContents))
+                                #   
+                                #   names(logContents) <- "Server Log"
+                                #   
+                                #   return(logContents)
+                                # })
   
   ################################  login ################################
   

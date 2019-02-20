@@ -282,6 +282,55 @@ getAllSites <- function()
   return(res)
 }
 
+getSiteName <- function(siteId)
+{
+  if(missing(siteId) || !is.numeric(siteId) || length(siteId) != 1 || is.na(siteId))
+    siteId <- -1
+  
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  res <- dbGetQuery(dbCon, paste0("SELECT Name FROM ", tblSites, " WHERE Id = ", siteId))
+  dbDisconnect(dbCon)
+  
+  return(res$Name)
+}
+
+getSiteId <- function(siteName)
+{
+  if(missing(siteName) || !is.character(siteName) || length(siteName) != 1 || is.na(siteName))
+    siteName <- ""
+  
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  res <- dbGetQuery(dbCon, paste0("SELECT Id FROM ", tblSites, " WHERE Name = '", siteName, "'"))
+  dbDisconnect(dbCon)
+  
+  return(res$Id)
+}
+
+enableSite <- function(siteId)
+{
+  if(missing(siteId) || !is.numeric(siteId) || length(siteId) != 1 || is.na(siteId))
+    return(FALSE)
+  
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  res <- dbExecute(dbCon, paste0("UPDATE ", tblSites, " SET Enabled = 1 WHERE Id = ", siteId))
+  dbDisconnect(dbCon)
+  
+  return(TRUE)
+}
+
+disableSite <- function(siteId)
+{
+  if(missing(siteId) || !is.numeric(siteId) || length(siteId) != 1 || is.na(siteId))
+    return(FALSE)
+  
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  res <- dbGetQuery(dbCon, paste0("UPDATE ", tblSites, " SET Enabled = 0 WHERE Id = ", siteId))
+  dbDisconnect(dbCon)
+  
+  return(TRUE)
+}
+
+
 getEnabledSites <- function()
 {
   dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
@@ -485,15 +534,39 @@ putClientJobSearchResults <- function(jobSearchResults)
   
   dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
   
-  existing <- dbGetQuery(dbCon, paste0("SELECT * FROM ",
-                                       tblJobSearchResults,
-                                       " WHERE ClientId = ",
-                                       unique(jobSearchResults$ClientId),
-                                       " AND JobUrl IN ('",
-                                       paste(jobSearchResults$JobUrl, collapse="','"),
-                                       "')"))
+  descShorts <- jobSearchResults$DescriptionShort
+  descShorts <- descShorts[which(descShorts != "")]
   
-  jobSearchResults <- jobSearchResults[which(!jobSearchResults$JobUrl %in% existing$JobUrl),]
+  descLongs <- jobSearchResults$DescriptionLong
+  descLongs <- descLongs[which(descLongs != "")]
+  
+  qry <- paste0("SELECT * FROM ",
+                tblJobSearchResults,
+                " WHERE ClientId = ",
+                unique(jobSearchResults$ClientId),
+                " AND JobUrl IN ('",
+                paste(jobSearchResults$JobUrl, collapse="','"),
+                "')",
+                " AND (DescriptionShort IN ('",
+                paste(descShorts, collapse="','"),
+                "') OR DescriptionLong IN ('",
+                paste(descLongs, collapse="','"),
+                "'))")
+  
+  paste0(qry)
+  
+  existing <- dbGetQuery(dbCon, qry)
+  
+  jobSearchResults <- jobSearchResults[which(!jobSearchResults$JobUrl %in% existing$JobUrl & 
+                                             (!descShorts %in% existing$DescriptionShort |
+                                              !descLongs %in% existing$DescriptionLong)),]
+  
+  if(nrow(jobSearchResults) == 0)
+  {
+    dbDisconnect(dbCon)
+    
+    return()
+  }
   
   res <- dbWriteTable(dbCon, tblJobSearchResults, jobSearchResults, append=T)
   
@@ -514,6 +587,34 @@ getClientJobSearchResults <- function(clientId)
   dbDisconnect(dbCon)
   
   return(res)
+}
+
+updateClientJobScore <- function(jobId, newScore)
+{
+  if(missing(jobId) || !is.numeric(jobId) || length(jobId) != 1 || is.na(jobId) ||
+     missing(newScore) || !is.numeric(newScore) || length(newScore) != 1 || is.na(newScore))
+    return(FALSE)
+  
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  res <- dbExecute(dbCon, paste0("UPDATE ", tblJobSearchResults, " SET Score = ", newScore, " WHERE Id = ", jobId))
+  
+  dbDisconnect(dbCon)
+  
+  return(TRUE)
+}
+
+updateClientJobSelection <- function(jobId, selected)
+{
+  if(missing(jobId) || !is.numeric(jobId) || length(jobId) != 1 || is.na(jobId) ||
+     missing(selected) || !is.logical(selected) || length(selected) != 1 || is.na(selected))
+    return(FALSE)
+  
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  res <- dbExecute(dbCon, paste0("UPDATE ", tblJobSearchResults, " SET Selected = ", ifelse(selected, "1", "0"), " WHERE Id = ", jobId))
+  
+  dbDisconnect(dbCon)
+  
+  return(TRUE)
 }
 
 getClientDetails <- function(clientId)
@@ -649,6 +750,16 @@ startUserServices <- function(userId)
       
       #start indeed
       system(paste0("/bin/R --slave --no-restore -e \"source('searchindeed.R'); searchIndeed(", userId, ")\""),
+             wait = F)
+    }else if((sites$Name[i] == "vagas") && sites$Enabled[i])
+    {
+      message("Starting vagas for userid: ", userId)
+      #clear the site command queue
+      clearUserCommands(userId, sites$Id[i])
+      clearUserProcessing(userId, sites$Id[i])
+      
+      #start vagas
+      system(paste0("/bin/R --slave --no-restore -e \"source('searchVagas.R'); searchVagas(", userId, ")\""),
              wait = F)
     }
   }
