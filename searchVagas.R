@@ -32,12 +32,12 @@ serviceMode <- TRUE
 
 startup <- function(userId)
 {
-  message(Sys.time(), ": sending output to logfile")
-  logfile <- paste("searchvagas", userId, ".log", sep="_")
-  logcon <<- file(logfile)
-  sink(logcon, append = TRUE)
-  sink(logcon, append = TRUE, type = "message")
-  message(Sys.time(), ": start logging to logfile")
+  #message(Sys.time(), ": sending output to logfile")
+  #logfile <- paste("searchvagas", userId, ".log", sep="_")
+  #logcon <<- file(logfile)
+  #sink(logcon, append = TRUE)
+  #sink(logcon, append = TRUE, type = "message")
+  #message(Sys.time(), ": start logging to logfile")
 }
 
 cleanup <- function(userId, siteId, remDr)
@@ -80,7 +80,7 @@ maxRepeatCount <- 30
 
 searchVagas <- function(userId)
 {
-  siteId <- 2
+  siteId <- 3
   clientId <- NULL
   remDr <- NULL
   exitGraceful <- TRUE
