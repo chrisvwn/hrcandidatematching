@@ -85,8 +85,9 @@ searchIndeed <- function(userId)
   clientId <- NULL
   remDr <- NULL
   exitGraceful <- TRUE
-  
   startup(userId)  
+  remSvrAddr <- '127.0.0.1'
+  
   
   repeat{
     exitCond <- tryCatch(
@@ -119,14 +120,14 @@ searchIndeed <- function(userId)
         
         message(Sys.time(), ": Launching browser")
 
-	      eCaps <- list()#list(chromeOptions = list(  args = c('--headless', '--disable-gpu', '--window-size=1280,800')))
+	      eCaps <- list(chromeOptions = list(  args = c('--headless', '--disable-gpu', '--window-size=1280,800')))
  
 	      if(is.null(remDr$client))
 	      {
 	        repeat
 	        {
 	          message(Sys.time(), ": remote driver not started. Starting ...")
-	          remDr$client <- try(remoteDriver(remoteServerAddr='127.0.0.1', port=4444L, browserName="chrome", extraCapabilities = eCaps), TRUE)
+	          remDr$client <- try(remoteDriver(remoteServerAddr=remSvrAddr, port=4444L, browserName="chrome", extraCapabilities = eCaps), TRUE)
 	          
 	          message(Sys.time(), ":Checking if we are connected to Selenium Hub")
 	          res <- try(remDr$client$open(silent = F))

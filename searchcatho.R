@@ -74,7 +74,7 @@ searchCatho <- function(userId)
   remDr <- NULL
   exitGraceful <- TRUE
   startup(userId)
-  remSvrAddr <- '35.231.79.46'
+  remSvrAddr <- '127.0.0.1'
   
   repeat{
     exitCond <- tryCatch(
