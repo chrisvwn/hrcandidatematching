@@ -22,12 +22,12 @@ serviceMode <- TRUE
 
 startup <- function(userId)
 {
-  message(Sys.time(), ": sending output to logfile")
-  logfile <- paste("searchcatho", userId, ".log", sep="_")
-  logcon <<- file(logfile)
-  sink(logcon, append = TRUE)
-  sink(logcon, append = TRUE, type = "message")
-  message(Sys.time(), ": start logging to logfile")
+  # message(Sys.time(), ": sending output to logfile")
+  # logfile <- paste("searchcatho", userId, ".log", sep="_")
+  # logcon <<- file(logfile)
+  # sink(logcon, append = TRUE)
+  # sink(logcon, append = TRUE, type = "message")
+  # message(Sys.time(), ": start logging to logfile")
 }
 
 cleanup <- function(userId, siteId, remDr)
@@ -157,6 +157,38 @@ searchCatho <- function(userId)
           
           break
         }
+        
+        message(Sys.time(), ": *** Detecting popover ... ")
+        
+        remDr$client$setImplicitWaitTimeout(1000)
+        
+        popupx <- try(remDr$client$findElement("id", "onesignal-popover-container"), TRUE)
+        
+        if(class(popupx) == "try-error")
+          message(Sys.time(), ": *** popover not detected.")
+        else
+        {
+          res <- try(popupx$clickElement(), TRUE)
+        }
+        
+        if(class(res) == "try-error")
+        {
+          #remove tos strip at bottom. Somehow prevents clicking on new page
+          message(Sys.time(), ": *** Detecting ToS bar ... ")
+          
+          tosButton <- try(remDr$client$findElement("class", "tos-Button"), TRUE)
+          
+          if(class(tosButton) == 'try-error')
+            message(Sys.time(), ": *** ToS not detected")
+          else
+          {
+            res <- try(tosButton$clickElement())
+            message(Sys.time(), ": *** ToS detected and dismissed")
+          }
+        }
+        
+        Sys.sleep(1)
+        
         
         message(Sys.time(), ": Clicking login link")
         loginLink$clickElement()
