@@ -75,7 +75,8 @@ shinyServer(function(input, output, session)
   })
   
   output$notificationMenu <- renderMenu({
-
+    req(login$Login)
+    
     getNotificationMenu()
   })
   
