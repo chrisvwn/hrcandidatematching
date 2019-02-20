@@ -13,9 +13,11 @@ rankClientJobs <- function(clientId)
   
     clientJobs <- getClientJobSearchResults(clientId)
 
-    clientDetails <- clientDetails[which(clientDetails$Property %LIKE% 'Posicao_Cargo_Interesse')]
-      
-    clientDetails <- getClientDetails(clientId)$Value
+    clientDets <- getClientDetails(clientId)
+    
+    clientDets <- clientDets[grep('Posicao_Cargo_Interesse', clientDets$Property),]
+    
+    clientDetails <- clientDets$Value
     
     if(nrow(clientJobs) < 2)
       return()

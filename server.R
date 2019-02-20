@@ -181,6 +181,8 @@ shinyServer(function(input, output, session)
   ################################  observe results dataframe ################################
   
   observe({
+    req(login$Login)
+    
     maxChars <- 250
     
     clntResults <- searchResults()
@@ -199,10 +201,18 @@ shinyServer(function(input, output, session)
        clntResults <- clntResults[which(clntResults$SearchTxt == input$interestsResults), ]
     
     #remove first 5 cols after id leaving only id, short & long description, score, selected and rank
-    clntResults <- clntResults[order(clntResults$Rank), -c(3:6)]
+    clntResults <- clntResults[order(clntResults$Rank), ]
     
+    clntResults <- dplyr::select(clntResults, Id, SearchTime, JobUrl, CompanyName, DescriptionShort, DescriptionLong, Rank, Score, Selected)
+
     if(nrow(clntResults) == 0)
+    {
+      #update the underlying dataframe of the datatable with the empty df
+      reactVals$clntResultsDF <- clntResults
+      
+      #stop processing
       return()
+    }
     
     #embed row number and jobid to identify the row in page(in js)/record in db later
     #zero-index for access in javascript
@@ -228,11 +238,8 @@ shinyServer(function(input, output, session)
   output$resultsDT <- DT::renderDataTable({
     req(login$Login)
     
-    df <- if(is.null(reactVals$clntResultsDF) || nrow(reactVals$clntResultsDF) > 0)
-      reactVals$clntResultsDF 
-    else 
-      data.frame(Value="No Data")
-    
+    df <- reactVals$clntResultsDF 
+
     datatable(df,
               rownames=F,
               escape=F,
@@ -265,10 +272,9 @@ shinyServer(function(input, output, session)
                 Shiny.onInputChange("chkboxId", this.id);
                 Shiny.onInputChange("chkboxClick", Math.random());
                 Shiny.onInputChange("chkboxChecked", $(this).is(":checked"));
-  })'))
+  })')) %>% formatStyle('Score',  backgroundColor = '#ffda6b')
 
-  }
-  )
+  })
   
   # Here is the code from Part 4 of https://github.com/rstudio/DT/pull/480:
   proxy <- dataTableProxy('resultsDT')
@@ -276,7 +282,7 @@ shinyServer(function(input, output, session)
   ################################  observe edit scores ################################
   
   observeEvent(input$resultsDT_cell_edit, {
-    scoreColIdx <- 7
+    scoreColIdx <- 8
     
     info <- input$resultsDT_cell_edit
     
@@ -323,7 +329,7 @@ shinyServer(function(input, output, session)
     jobId <- reactVals$clntResultsDF$Id[i]
     
     #write to DB
-    if(j == 8)
+    if(j == scoreColIdx)
       updateClientJobScore(jobId = jobId, newScore = as.numeric(v))
   })
   
