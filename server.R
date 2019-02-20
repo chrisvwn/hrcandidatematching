@@ -109,7 +109,7 @@ shinyServer(function(input, output, session)
   })
   
   clients <- reactive({
-    #dbCon <- RMariaDB::dbConnect(MariaDB(), user=dbUser, db=dbName)
+    #dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db=dbName)
     
     values$newUserUploaded
     

@@ -9,7 +9,7 @@ rankJobClients <- function(jobDetails)
     return()
   
   tryCatch({
-    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db=dbName)
+    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db=dbName)
   
     clients <- dbGetQuery(dbCon, "SELECT * FROM Clients INNER JOIN ClientDetails ON Clients.Id = ClientDetails.ClientId")
   

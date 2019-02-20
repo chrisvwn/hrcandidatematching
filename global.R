@@ -46,7 +46,7 @@ sendUserGetQuery <- function(userName)
   # convenience function to compose a query, retreive the results and if 
   # necessary, convert from null atomic vector to a NA value
 {
-  dbCon <- dbConnect(MariaDB(), user = dbUser, dbname = dbName)
+  dbCon <- dbConnect(MariaDB(), host=dbHost, user=dbUser, dbname=dbName)
   
   query <- composeUserGetQuery(userName) %>%
     dbSendQuery(dbCon, .)
@@ -141,4 +141,4 @@ showOKModal <- function(id, ...) {
 
 # initialize a connection for the session -- a server observer will 
 # automatically close the connection for us upon exit
-dbCon <- dbConnect(MariaDB(), user=dbUser, dbname = dbName)
+dbCon <- dbConnect(MariaDB(), host=dbHost, user=dbUser, dbname = dbName)

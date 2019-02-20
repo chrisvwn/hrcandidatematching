@@ -19,6 +19,7 @@ tblUserNotifications <- "UserNotifications"
 tblCurrLogins <- "CurrLogins"
 tblLogs <- "AppLogs"
 
+dbHost <- "35.231.79.46"
 dbName <- "HRAppDB"
 dbUser <- "root"
 
@@ -34,7 +35,7 @@ getUsers <- function(userId)
     sqlCmd <- paste0(sqlCmd, " WHERE Id = ", userId)
   }
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, sqlCmd)
   dbDisconnect(dbCon)
   return(res)
@@ -42,7 +43,7 @@ getUsers <- function(userId)
 
 getAllClients <- function()
 {
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblClients))
   dbDisconnect(dbCon)
   return(res)
@@ -57,7 +58,7 @@ putClientInQueue <- function(userId, siteId, clientId)
   
   df <- cbind.data.frame(userId, clientId, siteId)
  
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbWriteTable(dbCon, tblSearchQueue, df, append=T)
   dbDisconnect(dbCon)
   
@@ -74,7 +75,7 @@ putClientInAllQueues <- function(userId, clientId)
   
   df <- cbind.data.frame("UserId"=userId, "SiteId"=siteIds, "ClientId"=clientId)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbWriteTable(dbCon, tblSearchQueue, df, append=T)
   dbDisconnect(dbCon)
   
@@ -90,7 +91,7 @@ putClientInProcessing <- function(userId, siteId, clientId)
   
   df <- cbind.data.frame(userId, siteId, clientId)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbWriteTable(dbCon, tblSearchProcessing, df, append=T)
   dbDisconnect(dbCon)
   
@@ -106,7 +107,7 @@ getClientsInSiteQueue <- function(userId, siteId)
     siteId <- -1
   }
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblSearchQueue, " WHERE UserId = ", userId, " AND SiteId = ", siteId))
   dbDisconnect(dbCon)
   return(res)
@@ -117,7 +118,7 @@ getClientsInUserQueue <- function(userId)
   if(missing(userId) || !is.numeric(userId) || length(userId) != 1 || is.na(userId))
     userId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblSearchQueue, " WHERE UserId = ", userId))
   dbDisconnect(dbCon)
   return(res)
@@ -128,7 +129,7 @@ getClientsInQueue <- function(clientId)
   if(missing(clientId) || !is.numeric(clientId) || length(clientId) != 1 || is.na(clientId))
     clientId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblSearchQueue, " WHERE ClientId = ", clientId))
   dbDisconnect(dbCon)
   return(res)
@@ -188,7 +189,7 @@ isClientProcessingCancelled <- function(userId, clientId)
 
 getClientsInProcessing <- function()
 {
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblSearchProcessing))
   dbDisconnect(dbCon)
 
@@ -200,7 +201,7 @@ getClientsInUserProcessing <- function(userId)
   if(missing(userId) || !is.numeric(userId) || length(userId) != 1 || is.na(userId))
     userId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT DISTINCT ClientId FROM ", tblSearchProcessing, " WHERE UserId = ", userId))
   dbDisconnect(dbCon)
   return(res)
@@ -215,7 +216,7 @@ getClientsInSiteProcessing <- function(userId, siteId)
     siteId <- -1
   }
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT DISTINCT ClientId FROM ", tblSearchProcessing, " WHERE UserId = ", userId, " AND SiteId = ", siteId))
   dbDisconnect(dbCon)
   
@@ -229,7 +230,7 @@ putUserNotification <- function(userId, notificationType, content)
   
   df <- cbind.data.frame(userId, notificationType, content)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbWriteTable(dbCon, tblUserNotifications, df, append=T)
   dbDisconnect(dbCon)
   
@@ -251,7 +252,7 @@ getUserNotifications <- function(userId, notificationId)
     sqlCmd <- paste0(sqlCmd, " AND Id = ", notificationId)
   }
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, sqlCmd)
   
   dbDisconnect(dbCon)
@@ -264,7 +265,7 @@ delUserNotification <- function(notificationId)
   if(missing(notificationId) || !is.numeric(notificationId) || length(notificationId) != 1 || is.na(notificationId))
     notificationId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   dbExecute(dbCon, paste0("DELETE FROM ", tblUserNotifications, " WHERE Id = ", notificationId, ";"))
   
@@ -275,7 +276,7 @@ delUserNotification <- function(notificationId)
 
 getAllSites <- function()
 {
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblSites))
   dbDisconnect(dbCon)
   
@@ -287,7 +288,7 @@ getSiteName <- function(siteId)
   if(missing(siteId) || !is.numeric(siteId) || length(siteId) != 1 || is.na(siteId))
     siteId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT Name FROM ", tblSites, " WHERE Id = ", siteId))
   dbDisconnect(dbCon)
   
@@ -299,7 +300,7 @@ getSiteId <- function(siteName)
   if(missing(siteName) || !is.character(siteName) || length(siteName) != 1 || is.na(siteName))
     siteName <- ""
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT Id FROM ", tblSites, " WHERE Name = '", siteName, "'"))
   dbDisconnect(dbCon)
   
@@ -311,7 +312,7 @@ enableSite <- function(siteId)
   if(missing(siteId) || !is.numeric(siteId) || length(siteId) != 1 || is.na(siteId))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbExecute(dbCon, paste0("UPDATE ", tblSites, " SET Enabled = 1 WHERE Id = ", siteId))
   dbDisconnect(dbCon)
   
@@ -323,7 +324,7 @@ disableSite <- function(siteId)
   if(missing(siteId) || !is.numeric(siteId) || length(siteId) != 1 || is.na(siteId))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("UPDATE ", tblSites, " SET Enabled = 0 WHERE Id = ", siteId))
   dbDisconnect(dbCon)
   
@@ -333,7 +334,7 @@ disableSite <- function(siteId)
 
 getEnabledSites <- function()
 {
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblSites, " WHERE Enabled = TRUE"))
   dbDisconnect(dbCon)
   
@@ -346,7 +347,7 @@ removeClientFromUserQueue <- function(userId, clientId)
      missing(clientId) || !is.numeric(clientId) || length(clientId) != 1 || is.na(clientId))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   dbExecute(dbCon, paste0("DELETE FROM ", tblSearchQueue, " WHERE Userid = ", userId, " AND ClientId = ", clientId))
   dbDisconnect(dbCon)
   
@@ -358,7 +359,7 @@ removeClientFromProcessing <- function(userId, siteId, clientId)
   if(missing(clientId) || !is.numeric(clientId) || length(clientId) != 1 ||is.na(clientId))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   dbExecute(dbCon, paste0("DELETE FROM ", tblSearchProcessing, " WHERE UserId = ", userId, " AND SiteId = ", siteId, " AND ClientId = ", clientId))
   
@@ -372,7 +373,7 @@ clearUserQueue <- function(userId, siteId)
   if(missing(userId) || !is.numeric(userId) || length(userId) != 1 || is.na(userId))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   sqlCmd <- paste0("DELETE FROM ", tblSearchQueue, " WHERE UserId = ", userId)
   
@@ -396,7 +397,7 @@ clearUserProcessing <- function(userId, siteId)
   if(missing(userId) || !is.numeric(userId) || length(userId) != 1 || is.na(userId))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   sqlCmd <- paste0("DELETE FROM ", tblSearchProcessing, " WHERE UserId = ", userId)
   
@@ -420,7 +421,7 @@ clearAllUserProcessing <- function(confirm)
   if(missing(confirm) || !is.logical(confirm) || length(confirm) != 1)
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   sqlCmd <- paste0("DELETE FROM ", tblSearchProcessing)
   
@@ -445,7 +446,7 @@ pushCmdAllUserQueues <- function(userId, cmd)
      missing(cmd) || !is.character(cmd) || length(cmd) != 1 || is.na(cmd))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
 
   siteIds <- getEnabledSites()$Id
   
@@ -465,7 +466,7 @@ pushCmdUserQueue <- function(userId, siteId, cmd)
      missing(cmd) || !is.character(cmd) || length(cmd) != 1 || is.na(cmd))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
 
   df <- cbind.data.frame("UserId"=userId, "SiteId"=siteId, "CommandTxt"=cmd)
   
@@ -485,7 +486,7 @@ popCmdQueue <- function(userId, siteId)
     siteId <- -1
   }
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblSearchCommands, " WHERE UserId = ", userId, " AND SiteId = ", siteId, " LIMIT 1"))
   
@@ -508,7 +509,7 @@ clearUserCommands <- function(userId, siteId)
      missing(siteId) || !is.numeric(siteId) || length(siteId) != 1 || is.na(siteId))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
 
   sqlCmd <- paste0("DELETE FROM ", tblSearchCommands, " WHERE UserId = ", userId)
   
@@ -532,32 +533,33 @@ putClientJobSearchResults <- function(jobSearchResults)
   if(!is.data.frame(jobSearchResults) || nrow(jobSearchResults) == 0)
     return()
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   descShorts <- jobSearchResults$DescriptionShort
-  descShorts <- descShorts[which(descShorts != "")]
+  descShorts <- descShorts[which(descShorts != "" | !is.na(descShorts))]
   
   descLongs <- jobSearchResults$DescriptionLong
-  descLongs <- descLongs[which(descLongs != "")]
+  descLongs <- descLongs[which(descLongs != "" | !is.na(descLongs))]
   
   qry <- paste0("SELECT * FROM ",
                 tblJobSearchResults,
                 " WHERE ClientId = ",
                 unique(jobSearchResults$ClientId),
-                " AND JobUrl IN ('",
-                paste(jobSearchResults$JobUrl, collapse="','"),
-                "')",
-                " AND (DescriptionShort IN ('",
-                paste(descShorts, collapse="','"),
-                "') OR DescriptionLong IN ('",
-                paste(descLongs, collapse="','"),
-                "'))")
+                " AND JobUrl IN (",
+                paste(dbQuoteString(dbCon, jobSearchResults$JobUrl), collapse=","),
+                ")",
+                " AND (DescriptionShort IN (",
+                paste(dbQuoteString(dbCon, ifelse(length(descShorts)>0, descShorts, 'x')), collapse=","),
+                ") OR DescriptionLong IN (",
+                paste(dbQuoteString(dbCon, ifelse(length(descLongs)>0, descLongs, 'x')), collapse=","),
+                "))")
   
   paste0(qry)
   
-  existing <- dbGetQuery(dbCon, qry)
+  existing <- try(dbGetQuery(dbCon, qry))
   
-  jobSearchResults <- jobSearchResults[which(!jobSearchResults$JobUrl %in% existing$JobUrl & 
+  if(nrow(existing) > 0)
+    jobSearchResults <- jobSearchResults[which(!jobSearchResults$JobUrl %in% existing$JobUrl & 
                                              (!descShorts %in% existing$DescriptionShort |
                                               !descLongs %in% existing$DescriptionLong)),]
   
@@ -568,7 +570,7 @@ putClientJobSearchResults <- function(jobSearchResults)
     return()
   }
   
-  res <- dbWriteTable(dbCon, tblJobSearchResults, jobSearchResults, append=T)
+  res <- try(dbWriteTable(dbCon, tblJobSearchResults, jobSearchResults, append=T))
   
   dbDisconnect(dbCon)
   
@@ -580,7 +582,7 @@ getClientJobSearchResults <- function(clientId)
   if(missing(clientId) || !is.numeric(clientId) || length(clientId) != 1 || is.na(clientId))
     clientId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblJobSearchResults, " WHERE ClientId = ", clientId))
   
@@ -595,7 +597,7 @@ updateClientJobScore <- function(jobId, newScore)
      missing(newScore) || !is.numeric(newScore) || length(newScore) != 1 || is.na(newScore))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbExecute(dbCon, paste0("UPDATE ", tblJobSearchResults, " SET Score = ", newScore, " WHERE Id = ", jobId))
   
   dbDisconnect(dbCon)
@@ -609,7 +611,7 @@ updateClientJobSelection <- function(jobId, selected)
      missing(selected) || !is.logical(selected) || length(selected) != 1 || is.na(selected))
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbExecute(dbCon, paste0("UPDATE ", tblJobSearchResults, " SET Selected = ", ifelse(selected, "1", "0"), " WHERE Id = ", jobId))
   
   dbDisconnect(dbCon)
@@ -629,7 +631,7 @@ getClientDetails <- function(clientId)
       sqlCmd <- paste0(sqlCmd, " WHERE ClientId = ", clientId)
   }
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
 
   clientDetails <- dbGetQuery(dbCon, sqlCmd)
   
@@ -643,7 +645,7 @@ getClientName <- function(clientId)
   if(missing(clientId) || !is.numeric(clientId) || length(clientId) != 1 || is.na(clientId))
     clientId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   clientDetails <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblClients, " WHERE Id = ", clientId))
   
@@ -657,7 +659,7 @@ getClientInterests <- function(clientId)
   if(missing(clientId) || !is.numeric(clientId) || length(clientId) != 1 || is.na(clientId))
     clientId <- -1
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   clientDetails <- dbGetQuery(dbCon, paste0("SELECT Value FROM ", tblClientDetails, " WHERE ClientId = ", clientId, " AND Property LIKE '%interesse%'"))
   
@@ -675,7 +677,7 @@ getServerStatus <- function(userId, siteId)
     siteId <- -1
   }
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblServerStatus, " WHERE UserId = ", userId, " AND SiteId = ", siteId))
   dbDisconnect(dbCon)
   
@@ -692,14 +694,14 @@ setServerStatus <- function(userId, siteId, status)
   
   if(is.null(statusId))
   {
-    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
     res <- dbExecute(dbCon, "UPDATE ", tblServerStatus, " SET Status = ", status, " WHERE Id = ", statusId)
     dbDisconnect(dbCon)
   }
   
   df <- cbind.data.frame(userId, clientId, siteId)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbWriteTable(dbCon, tblServerStatus, df, append=T)
   dbDisconnect(dbCon)
   
@@ -712,7 +714,7 @@ deleteServerStatus <- function(userId, siteId)
      missing(siteId) || !is.numeric(siteId) || length(siteId) != 1)
     return()
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbGetQuery(dbCon, paste0("DELETE FROM ", tblServerStatus, " WHERE UserId = ", userId, " AND SiteId = ", siteId))
   dbDisconnect(dbCon)
   
@@ -959,7 +961,7 @@ cancelCmdUserQueue <- function(userId, siteId, cmd)
   if(missing(userId) || !is.numeric(userId) || length(userId) != 1)
     return(FALSE)
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   sqlCmd <- paste0("DELETE FROM ", tblSearchCommands, " WHERE UserId = ", userId)
   
@@ -1004,7 +1006,7 @@ addCurrLoginRecord <- function(session, sessionId, userId)
   
   df1 <- data.frame("LogText"=paste0("User Login, userId=", userId, ", SessionId=", sessionId, ", HTTP Headers, ", allValues))
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbWriteTable(dbCon, tblCurrLogins, df, append=T)
   res <- dbWriteTable(dbCon, tblLogs, df1, append=T)
   dbDisconnect(dbCon)
@@ -1021,7 +1023,7 @@ delCurrLoginRecord <- function(session, sessionId, userId)
   
   df1 <- data.frame("LogText"=paste0("User Logout, userId=", userId))
   
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbExecute(dbCon, sqlDelCurrLogin)
   res <- dbWriteTable(dbCon, tblLogs, df1, append=T)
   dbDisconnect(dbCon)
@@ -1031,7 +1033,7 @@ delCurrLoginRecord <- function(session, sessionId, userId)
 
 getLoggedInUsers <- function()
 {
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName) 
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName) 
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblCurrLogins))
   dbDisconnect(dbCon)
   

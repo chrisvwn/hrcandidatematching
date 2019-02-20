@@ -5,7 +5,7 @@ forceOverwriteDB <- FALSE
 
 tryCatch({
   #Connect to mysql
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser)
   
   #we were able to connect to mysql
   #create database using RMariaDB in R if it
@@ -16,7 +16,7 @@ tryCatch({
   RMariaDB::dbDisconnect(dbCon)
   
   # reconnecting to database we just created using following command in R :
-  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   if(forceOverwriteDB)
   {

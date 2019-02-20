@@ -131,7 +131,7 @@ extractPDFData <- function(pdfFilename)
   #    clients <- rbind.data.frame(clients, fieldsDF)
     
     #readr::write_csv(clients, clientsFilename)
-    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db=dbName)
+    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db=dbName)
     
     #save client name to clients table and retrieve clients.id
     #begin transaction

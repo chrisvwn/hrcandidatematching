@@ -9,12 +9,14 @@ rankClientJobs <- function(clientId)
     return()
   
   tryCatch({
-    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), user=dbUser, db=dbName)
+    dbCon <- RMariaDB::dbConnect(RMariaDB::MariaDB(), host=dbHost, user=dbUser, db=dbName)
   
     clientJobs <- getClientJobSearchResults(clientId)
-  
+
+    clientDetails <- clientDetails[which(clientDetails$Property %LIKE% 'Posicao_Cargo_Interesse')]
+      
     clientDetails <- getClientDetails(clientId)$Value
-  
+    
     if(nrow(clientJobs) < 2)
       return()
     

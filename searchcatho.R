@@ -74,6 +74,7 @@ searchCatho <- function(userId)
   remDr <- NULL
   exitGraceful <- TRUE
   startup(userId)
+  remSvrAddr <- '35.231.79.46'
   
   repeat{
     exitCond <- tryCatch(
@@ -113,7 +114,7 @@ searchCatho <- function(userId)
         repeat
         {
           message(Sys.time(), ": remote driver not started. Starting ...")
-          remDr$client <- try(remoteDriver(remoteServerAddr='127.0.0.1', port=4444L, browserName="chrome", extraCapabilities = eCaps), TRUE)
+          remDr$client <- try(remoteDriver(remoteServerAddr=remSvrAddr, port=4444L, browserName="chrome", extraCapabilities = eCaps), TRUE)
           
           message("Checking if we are connected to Selenium Hub")
           res <- try(remDr$client$open(silent = F))
@@ -160,35 +161,23 @@ searchCatho <- function(userId)
         
         message(Sys.time(), ": *** Detecting popover ... ")
         
-        remDr$client$setImplicitWaitTimeout(1000)
+        #remDr$client$setImplicitWaitTimeout(1000)
         
-        popupx <- try(remDr$client$findElement("id", "onesignal-popover-container"), TRUE)
+        popupCancelBtn <- try(remDr$client$findElement("id", "onesignal-popover-cancel-button"), TRUE)
         
-        if(class(popupx) == "try-error")
+        if(class(popupCancelBtn) == "try-error")
+        {
           message(Sys.time(), ": *** popover not detected.")
+        }
         else
         {
-          res <- try(popupx$clickElement(), TRUE)
+          message(Sys.time(), ": *** popover found. Dismissing")
+          res <- try(popupCancelBtn$clickElement(), TRUE)
         }
-        
-        if(class(res) == "try-error")
-        {
-          #remove tos strip at bottom. Somehow prevents clicking on new page
-          message(Sys.time(), ": *** Detecting ToS bar ... ")
-          
-          tosButton <- try(remDr$client$findElement("class", "tos-Button"), TRUE)
-          
-          if(class(tosButton) == 'try-error')
-            message(Sys.time(), ": *** ToS not detected")
-          else
-          {
-            res <- try(tosButton$clickElement())
-            message(Sys.time(), ": *** ToS detected and dismissed")
-          }
-        }
-        
+
         Sys.sleep(1)
         
+        #remDr$client$setImplicitWaitTimeout(20000)
         
         message(Sys.time(), ": Clicking login link")
         loginLink$clickElement()
@@ -868,7 +857,7 @@ searchCatho <- function(userId)
                   next
               }
               
-              message("jobDetails: ", jobDetails)
+              #message("jobDetails: ", jobDetails)
               jobDetails <- try(dplyr::bind_rows(jobDetails, jobDetail), TRUE)
               
               if(class(jobDetails) == 'try-error')
@@ -886,7 +875,7 @@ searchCatho <- function(userId)
             {
               #add a rank column which will be populated later
               jobAds <- cbind.data.frame(jobAds, "Rank"=NA)
-                
+              
               #write to search results csv 
               message(Sys.time(), ": Writing results to db")
               #readr::write_csv(searchResults, "jobsearchresults.csv")
@@ -902,6 +891,9 @@ searchCatho <- function(userId)
                                          "SiteId"=rep(siteId, nrow(jobAds)),
                                          "SearchTxt"=rep(searchTxt, nrow(jobAds)),
                                          jobAds)
+              
+              message("jobAds: ")
+              print(jobAds)
               
               #write to search results csv 
               message(Sys.time(), ": Writing results to db")

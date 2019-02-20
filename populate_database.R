@@ -20,7 +20,7 @@ sendUserAddQuery <- function(id, fname, lname, uname, password, email, role)
 
 tryCatch({
   # initialize a connection
-  dbCon <- dbConnect(MariaDB(), user=dbUser, db = dbName)
+  dbCon <- RMariaDB::dbConnect(MariaDB(), host=dbHost, user=dbUser, db = dbName)
   
   res <- dbGetQuery(dbCon, paste0("SELECT * FROM ", tblUsers))
   
