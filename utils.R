@@ -19,7 +19,7 @@ tblUserNotifications <- "UserNotifications"
 tblCurrLogins <- "CurrLogins"
 tblLogs <- "AppLogs"
 
-dbHost <- "35.231.79.46"
+dbHost <- "127.0.0.1"
 dbName <- "HRAppDB"
 dbUser <- "root"
 
