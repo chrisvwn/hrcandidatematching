@@ -268,8 +268,8 @@ searchVagas <- function(userId)
             
             message(Sys.time(), ": Entering search criteria '", searchTxt, "'")
             #remDr$client$sendKeysToActiveElement(list(paste0(searchTxt)))
-            searchBar$sendKeysToElement(sendKeys = list(paste0(searchTxt), key = "enter") )
             
+            searchBar$sendKeysToElement(sendKeys = list(paste0(searchTxt), key = "enter") )
             
             #submitting the search
             message("Locating search button")
@@ -289,7 +289,6 @@ searchVagas <- function(userId)
             # 
             message("Clicking search button")
             #searchButton$clickElement()
-            
             
             message("Sleeping 3")
             Sys.sleep(3)
