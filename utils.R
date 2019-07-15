@@ -1,4 +1,8 @@
 library(RMariaDB)
+library(reticulate)
+company <- import("company")
+
+#cred = cts$client_service
 
 #userProcessingFile <- "userprocessing.txt"
 #userQueueFile <- "userqueue.csv"
@@ -545,10 +549,10 @@ putClientJobSearchResults <- function(jobSearchResults)
                 tblJobSearchResults,
                 " WHERE ClientId = ",
                 unique(jobSearchResults$ClientId),
-                " AND JobUrl IN (",
+                " OR JobUrl IN (",
                 paste(dbQuoteString(dbCon, jobSearchResults$JobUrl), collapse=","),
                 ")",
-                " AND (DescriptionShort IN (",
+                " OR (DescriptionShort IN (",
                 paste(dbQuoteString(dbCon, ifelse(length(descShorts)>0, descShorts, 'x')), collapse=","),
                 ") OR DescriptionLong IN (",
                 paste(dbQuoteString(dbCon, ifelse(length(descLongs)>0, descLongs, 'x')), collapse=","),
@@ -559,7 +563,7 @@ putClientJobSearchResults <- function(jobSearchResults)
   existing <- try(dbGetQuery(dbCon, qry))
   
   if(nrow(existing) > 0)
-    jobSearchResults <- jobSearchResults[which(!jobSearchResults$JobUrl %in% existing$JobUrl & 
+    jobSearchResults <- jobSearchResults[which(!jobSearchResults$JobUrl %in% existing$JobUrl | 
                                              (!descShorts %in% existing$DescriptionShort |
                                               !descLongs %in% existing$DescriptionLong)),]
   
@@ -1039,3 +1043,5 @@ getLoggedInUsers <- function()
   
   res
 }
+
+#postJobsToCts <- function(){}

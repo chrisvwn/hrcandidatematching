@@ -77,14 +77,15 @@ tryCatch({
                                            CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"))
 
 #DISABLED: was needed to get a unique row by hashing all columns but not in use. JobUrl should be used
-#  as the primary key
-#   res <- RMariaDB::dbExecute(dbCon, paste0("ALTER TABLE ", tblJobSearchResults, " ADD COLUMN IF NOT EXISTS
-# ClientJobUrlHash binary(32)
-# GENERATED ALWAYS AS (
-# unhex(sha2(concat(ClientId,'-',JobUrl), 256))) 
-# STORED NOT NULL,
-# ADD UNIQUE INDEX
-# unique_constraint (ClientJobUrlHash);"))
+#  as the primary key. Note JobUrl is not sufficient. For catho this changes for some reason with the same
+  #content in other fields. Requires MySQL 5.7
+  # res <- RMariaDB::dbExecute(dbCon, paste0("ALTER TABLE ", tblJobSearchResults, " ADD COLUMN 
+  #                                          ClientJobHash binary(32)
+  #                                          GENERATED ALWAYS AS (
+  #                                          unhex(sha2(concat(DescriptionShort,'-',DescriptionLong), 256)))
+  #                                          STORED NOT NULL,
+  #                                          ADD UNIQUE INDEX
+  #                                          unique_constraint (ClientJobHash);"))
   
   res <- RMariaDB::dbExecute(dbCon, paste0("CREATE TABLE ", tblSearchQueue, " (
                                            Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

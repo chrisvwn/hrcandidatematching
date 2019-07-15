@@ -204,7 +204,7 @@ shinyServer(function(input, output, session)
     #remove first 5 cols after id leaving only id, short & long description, score, selected and rank
     clntResults <- clntResults[order(clntResults$Rank), ]
     
-    clntResults <- dplyr::select(clntResults, Id, SearchTime, JobUrl, CompanyName, DescriptionShort, DescriptionLong, Rank, Score, Selected)
+    clntResults <- dplyr::select(clntResults, Id, JobUrl, CompanyName, DescriptionShort, DescriptionLong, Rank, Score, Selected)
 
     if(nrow(clntResults) == 0)
     {
@@ -251,11 +251,11 @@ shinyServer(function(input, output, session)
                            scrollY=400,
                            autoWidth=T,
                            searchHighlight = TRUE,
-                           columnDefs = list(list(visible=FALSE, targets=c(1)),
-                                             list(className='dt-center', targets=c(8)))),
+                           columnDefs = list(list(visible=FALSE, targets=c(0)),
+                                             list(className='dt-center', targets=c(7)))),
               callback=JS(
                 'table.on("click.dt","tr td input:checkbox", function () {
-                var dataScore = $(this).parent().siblings().eq(6).text();
+                var dataScore = $(this).parent().siblings().eq(5).text();
                 var isChecked = $(this).is(":checked");
                 
                 //alert("score=<" + dataScore + "> checked=<" + isChecked + ">");
@@ -283,7 +283,7 @@ shinyServer(function(input, output, session)
   ################################  observe edit scores ################################
   
   observeEvent(input$resultsDT_cell_edit, {
-    scoreColIdx <- 8
+    scoreColIdx <- 7
     
     info <- input$resultsDT_cell_edit
     

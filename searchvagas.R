@@ -259,8 +259,9 @@ searchVagas <- function(userId)
             
             message(Sys.time(), ": Clicking on search bar")
             #click on the search bar
-            remDr$client$setImplicitWaitTimeout(milliseconds = 20000)
+            #searchBar$clickElement()
             
+            remDr$client$setImplicitWaitTimeout(milliseconds = 20000)
             
             message(Sys.time(), ": Clearing search bar")
             #clear the search bar
@@ -270,6 +271,8 @@ searchVagas <- function(userId)
             #remDr$client$sendKeysToActiveElement(list(paste0(searchTxt)))
             
             searchBar$sendKeysToElement(sendKeys = list(paste0(searchTxt), key = "enter") )
+            #taking a screenshot
+            #remDr$client$screenshot(display = TRUE)
             
             #submitting the search
             message("Locating search button")
@@ -437,7 +440,7 @@ searchVagas <- function(userId)
               
               message(Sys.time(), ": Combining company details")
               #cbind jobnames with details
-              jobAds <- dplyr::bind_cols("JobTitle"=jobTitles, "JobUrl"=jobUrls, "CompanyName"=companyNames, "ShortDescription"=jobSummaries)
+              jobAds <- dplyr::bind_cols("JobTitle"=jobTitles, "JobUrl"=jobUrls, "CompanyName"=companyNames, "DescriptionShort"=jobSummaries)
               
               #Excluding the confidencial ads
               
